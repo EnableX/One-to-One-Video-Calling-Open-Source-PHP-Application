@@ -1,46 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="description"
+        content="Video conferencing solutions built specifically for educators to deliver dynamic virtual classes and training programs to students, faculty, and staff. Try now!">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <title>Sample App: 1-To-1 Conference using EnableX</title>
-    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha256-aAr2Zpq8MZ+YA/D6JtRD3xtrwpEz2IqOS+pWD/7XKIw=" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/confo.css">
-    <link rel="shortcut icon" type="image/png" href="img/enablex.png"/>
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="js/tether.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <script type="text/javascript" src="js/EnxRtc.js"></script>
-    <script type="text/javascript" src="js/util.js"></script>
-    <script type="text/javascript" src="js/confo.js"></script>
-    <link rel="stylesheet" href="css/jquery.toast.css">
-
+    <link rel="stylesheet" href="./css/style-sign-in.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+        integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"
+        integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous" />
+    <link rel="shortcut icon" type="image/png" href="img/enablex.png" />
 </head>
+
 <body>
-<div class="container-fluid">
-    <div class="row ">
-        <div class="col-md-2"></div>
-        <div class="col-md-4" style="width: 100%;height:100%;">
-            <div class="vedio_container_div">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="local_video_div"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div id="multi_video_container_div" style=""></div>
-                    </div>
+    <header>
+        <!-- =================================================== Nav section ============================-->
+        <div id="app" class="container">
+            <nav class="navbar navbar-expand-lg navbar-light pl-0 pr-0">
+                <a class="navbar-brand" href="https://www.enablex.io/">
+                    <img src="./img/enableX_logo.png" alt="EnableX">
+                </a>
+                <div class="navbar-collapse collapse nav justify-content-end">
+                    <ul class="nav justify-content-end ton-hedr-nav">
+                        <li class="nav-item">
+                            <a class="nav-link login">Sample Code <span class='fa fa-code'></span></a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="row">
-                   <div class="controls" id="controls" style="background-color:grey;position: fixed;bottom: 0;width:100%;text-align: center">
-                       <img src="img/mike.png" style="margin-right: 20px;cursor: pointer;" class="cus_img_icon icon-confo-mute"  onclick="audioMute()" title="mute audio" />
-                       <img src="img/video.png" style="margin-right: 20px;cursor: pointer;" class="cus_img_icon icon-confo-video-mute" title="mute video" onclick="videoMute()" />
-                       <img src="img/end-call.png" style="margin-right: 20px;cursor: pointer;" class="cus_img_icon end_call" title="End_call" onclick="endCall()" />
-                   </div>
+            </nav>
+        </div>
+    </header>
+    <div class="container main position-relative">
+        <div class="row">
+            <div class="col-12 col-md-12 col-xl-6 col-lg-6">
+                <div class="over-flow">
+                    <div id="local_video_div" class="cover"></div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-xl-6 col-lg-6">
+                <div class="over-flow">
+                    <div id="multi_video_container_div" class="cover"></div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="controls" id="controls" style="background-color:grey;position: fixed;bottom: 0;width:100%;text-align: center">
+                <span>
+                    <img src="img/mike.png" style="margin-right: 20px;cursor: pointer;"
+                        class="cus_img_icon icon-confo-mute" onclick="audioMute()" title="mute audio" />
+                    <img src="img/video.png" style="margin-right: 20px;cursor: pointer;"
+                        class="cus_img_icon icon-confo-video-mute" title="mute video" onclick="videoMute()" />
+                    <img src="img/end-call.png" style="margin-right: 20px;cursor: pointer;"
+                        class="cus_img_icon end_call" title="End_call" onclick="endCall()" />
+                </span>
+            </div>
+        </div>
     </div>
-</div>
-<script type="text/javascript" src="js/jquery.toast.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/js/tether.min.js"
+        integrity="sha256-4lietOiwRDBKx1goZZbRiwB06L+/bPYEGDIKZt82bgg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha256-OFRAJNoaD8L3Br5lglV7VyLRf0itmoBzWUoM+Sji4/8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
+        integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+        integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/EnxRtc.js"></script>
+    <script type="text/javascript" src="js/confo.js"></script>
+    <script type="text/javascript" src="js/util.js"></script>
 </body>
+
 </html>

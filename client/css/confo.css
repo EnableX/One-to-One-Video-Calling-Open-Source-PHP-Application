@@ -1,60 +1,19 @@
 body{
-    background-color: #333 !important;
+    background-color: none;
 }
-.card_div{
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin: 10px;
-    border-radius: 10px;
-}
-.vedio_container_div{
-    padding-top: 25px;
-    /*border: 14px solid #ccc;*/
-    /*margin: 10px;*/
-    /*box-shadow: 1px 3px 5px #aaa;*/
-}
-.publish_div p{
-    text-align: center;
-    margin-top: 20px ;
-}
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     border:none !important;
 }
+
 ul.nav.nav-tabs li.active{
     border-bottom: 3px solid #0af;
 }
-.action_div ul{
-    margin-top:10px;
-}
-label.label_right{
-    float: right;
-    font-weight: normal !important;
-}
-div.message_div .row{
-    padding: 10px;
-}
-div.message_div{
-    padding-right: 20px;
-}
+
 textarea{
     resize: none;
 }
-#multi_video_container_div{
-    /*position: absolute;*/
-    /*right: 0px;*/
-    /*overflow: auto;*/
-    /*z-index: 9002;*/
-    /*height: 400px;*/
-    /*width: 130px;*/
-    top: 0px;
-}
-#multi_video_container_div .live_stream_div{
-    float: left;
-    height:100px;
-    width:100px;
 
-    margin-left:10px;
-}
 @keyframes textAppearence {
     0%   {top:8px;}
     25%  {top:6px;}
@@ -62,6 +21,7 @@ textarea{
     75%  { top:2px;}
     100% { top:0px;}
 }
+
 .multi_text_container_div{
     position: absolute;
     overflow: auto;
@@ -72,19 +32,15 @@ textarea{
     color:#fff;
     padding: 5px;
 }
-.show_none{
-    display: none;
-}
-#local_video_div{
-    height:400px;
-    width: 100%;
-}
+
 .full_width{
     width:100%;
 }
+
 .run-text-animation {
   animation: textAppearence 4s; 
 }
+
 .fullScreen {
 	position:fixed !important;
     z-index:9009 !important;
@@ -93,6 +49,7 @@ textarea{
 	height:100% !important;
 	margin-top:-100px !important;
 }
+
 .small_loader {
     height: 120px;
     width: 120px;
@@ -105,57 +62,89 @@ cursor:pointer;
     position: absolute;
     top:5%;
     left:5%;
+    /* color:#fff; */
+}
+
+.over-flow{
+    /* overflow: hidden; */
+    height: 500px;
+    width:100%;
+    padding: 0;
+    
+}
+
+#controls{
+    background-color: #444141c9;
+    box-shadow: 0px 0px 3px 4px #9890902e;
+    position: absolute;
+    bottom: 10%;
+    width: auto;
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #controls span a {
+      padding: 10px 10px;
+     
+
+  }
+  #controls span a i{
+    color: #fff;
+    font-size: 25px;
+    padding: 15px 0 15px 7px;
+
+  }
+  #controls span a.morelink{
+      position: relative;
+  }
+
+.contain {
+    width: inherit;				 
+  height: inherit;			
+  object-fit: contain;		/* use fill, contain, cover */
+}
+.cover {
+    width: inherit;				 
+  height: inherit;			
+  object-fit: cover;		/* use fill, contain, cover */
+}
+.fill {
+    width: inherit;				 
+  height: inherit;			
+  object-fit: fill;		/* use fill, contain, cover */
+}
+
+#controls span ul.more-opc{
+    display: block;
+    list-style: none;
+    position: absolute;
+    top: -92px;
+    right: -51px;
+    text-align: left;
+    padding: 2px 9px 0 9px;
+    background-color: #444141c9;
+    box-shadow: 0px 0px 1px 1px #9890902e;
+}
+
+#controls span ul.more-opc li a{
     color:#fff;
+    padding: 5px 0;
 }
 
-@media screen and (min-width: 1690px) {
-    .classic_vcx_stream
-    {
-        height: 700px !important;
-        width: 900px !important;
-
-    }
+.video-thumbnail{
+    position: absolute;
+    bottom:0;
+    right: 15px;
+    width: 150px;
+    height:150px;
 }
 
-
-@media screen and (max-width: 1690px) {
-    .classic_vcx_stream
-    {
-        height: 450px !important;
-        width: 650px !important;
-
-    }
+.video-thumbnail video{
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
 }
-@media screen and (max-width: 1280px) {
-    .classic_vcx_stream
-    {
-        height: 400px !important;
-        width: 500px !important;
-
-    }
-}
-@media screen and (max-width: 980px) {
-    .classic_vcx_stream
-    {
-        height: 500px !important;
-        width: 500px !important;
-
-    }
-}
-@media screen and (max-width: 736px) {
-    .classic_vcx_stream
-    {
-        height: 400px !important;
-        width: 500px !important;
-
-    }
-}
-@media screen and (max-width: 480px) {
-    .classic_vcx_stream
-    {
-        height: 300px !important;
-        width: 400px !important;
-
-    }
-}
-

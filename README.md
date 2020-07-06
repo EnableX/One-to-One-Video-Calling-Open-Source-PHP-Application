@@ -4,7 +4,7 @@ The Sample Web App demonstrates the use of APIs for EnableX platform to carry ou
 
 RTC Applications hosted on EnableX platform run natively on supported set of web browsers without any additional plugin downloads. 
 
-This basic 1-to-1 Video Chat Application is developed using HTML, CSS, Bootstrap v4.0.0-alpha.6, JAVA Script, jQuery, PHP and EnxRtc (The EnableX Web Toolkit). 
+This basic 1-to-1 Video Chat Application is developed using HTML, CSS, Bootstrap, JAVA Script, jQuery, PHP and EnxRtc (The EnableX Web Toolkit). 
 
 >The details of the supported set of web browsers can be found here:
 https://developer.enablex.io/release-notes/#cross-compatibility
@@ -18,6 +18,9 @@ When developing a Client Application with EnxRtc.js make sure to include the upd
 ## 2. Demo (only if you can't get it working below)
 
 Visit Demo Zone (https://portal.enablex.io/demo-zone/) to request a Guided Demo or Demo Access to different type of application available there. 
+
+You may also try our Video Meeting and Webinar solutions here: https://enablex.io/vcfree
+
 
 ## 3. Installation
 
@@ -49,7 +52,7 @@ Alternatively you can create your self-signed certificate as below
 
 `sudo mv server.key /etc/ssl/private/ssl.key`
 
-enable mod ssl and turn on ssl server
+Enable mod ssl and turn on ssl server
 
 `sudo a2enmod ssl`
 
@@ -72,12 +75,13 @@ define("APP_KEY",	"YOUR_APP_KEY");
 
 * Open a browser and go to `https://localhost:443/path-to-sample-app/client/`. The browser should load the App. 
 * Go to -> Advanced -> Proceed to localhost
-* Don't have a Room ID? Create here (create a new RoomID) and have it pre-filled
-* Store the Room ID for future use or share it
-* Enter a username (e.g. test0)
-* Join and allow access to camera and microphone when prompted to start your first webRTC call through EnableX
+* `Don't have a Room ID? Create One` (it creates a new Room ID) and have it pre-filled
+* Store the `Room ID` for future use or share it
+* Enter a user `Name` (e.g. test0)
+* Select `Join as Moderator`
+* `Sign In` and allow access to camera and microphone when prompted to start your first webRTC call through EnableX
 * Open another browser tab and enter `https://localhost:443/path-to-sample-app/client/`
-* Enter the same roomID previously created and add a different username (test1) and click join
+* Enter the same `Room ID` previously created, add a different user `Name` (e.g. test1) and select `Join as Participant` and click `Sign In`
 * Now, you should see your own video in both the tabs!
 
 
