@@ -73,9 +73,17 @@ cursor:pointer;
     
 }
 
+.over-flow-screen{
+    overflow: hidden;
+    /* height: 500px; */
+    width:100%;
+    padding: 0;
+    
+}
+
 #controls{
-    background-color: #444141c9;
-    box-shadow: 0px 0px 3px 4px #9890902e;
+    /* background-color: #444141c9; */
+    /* box-shadow: 0px 0px 3px 4px #9890902e; */
     position: absolute;
     bottom: 10%;
     width: auto;
@@ -148,3 +156,55 @@ cursor:pointer;
     height: inherit;
     object-fit: cover;
 }
+
+.fa-icon-background {
+    color: black;
+}
+
+.fa-phone-icon-background {
+    color: red;
+}
+
+.fa-microphone {
+	color: white;
+}
+
+.fa-microphone-slash {
+	color: white;
+}
+
+.fa-video {
+	color: white;
+}
+
+.fa-video-slash {
+	color: white;
+}
+
+.fa-slash {
+	color: white;
+}
+
+.fa-desktop {
+	color: white;
+}
+
+.fa-desktop-slash {
+	color: white;
+}
+
+.fa-phone {
+	color: white;
+}
+
+.fa-phone-slash {
+	color: white;
+}
+
+.fa:hover {
+    color: grey;
+  }
+
+.fa-stack {
+    cursor: pointer;
+  }

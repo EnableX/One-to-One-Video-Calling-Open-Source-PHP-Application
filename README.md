@@ -71,7 +71,7 @@ define("APP_KEY",	"YOUR_APP_KEY");
 
 ```
 
-### 3.2 Test you video call
+### 3.2 Test video call
 
 * Open a browser and go to `https://localhost:443/path-to-sample-app/client/`. The browser should load the App. 
 * Go to -> Advanced -> Proceed to localhost
@@ -83,6 +83,12 @@ define("APP_KEY",	"YOUR_APP_KEY");
 * Open another browser tab and enter `https://localhost:443/path-to-sample-app/client/`
 * Enter the same `Room ID` previously created, add a different user `Name` (e.g. test1) and select `Join as Participant` and click `Sign In`
 * Now, you should see your own video in both the tabs!
+
+### 3.2 Test screen share
+
+* Once video call started, click on 'Desktop' icon to start screen share.
+* Once screen share started, layout for the presenter remain same (side by side video). However screen which is shared by presentor, is displayed to the person on other side by hiding the previous layout (side by side video).
+* Click on 'Desktop' icon to again to stop screen share.
 
 
 ## 4 Server API

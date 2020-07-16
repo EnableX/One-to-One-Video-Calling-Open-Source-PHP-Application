@@ -101,6 +101,7 @@ window.onload = function () {
     }
 
     // Get query string from URL
+    // const { roomId, usertype, user_ref } = Qs.parse(location.search, {
     const { user_ref, token } = Qs.parse(location.search, {
         ignoreQueryPrefix: true
     });
@@ -115,72 +116,106 @@ window.onload = function () {
         options: options
     };
 
-    var ATList = null;
+    // var retData = {
+    //     name: user_ref,
+    //     role: usertype,
+    //     roomId: roomId,
+    //     user_ref: user_ref,
+    // };
 
-    // JOin Room
-    localStream = EnxRtc.joinRoom(token, config, (success, error) => {
+    // createToken(retData, function (token) {
+        var ATUserList = null;
 
-        if (error && error != null) { }
+        // JOin Room
+        localStream = EnxRtc.joinRoom(token, config, (success, error) => {
 
-        if (success && success != null) {
-            room = success.room;
-            setLiveStream(localStream);
-            for (var i = 0; i < success.streams.length; i++) {
-                room.subscribe(success.streams[i]);
-            }
+            if (error && error != null) { }
 
-            // Active Talker list is updated
-            room.addEventListener('active-talkers-updated', function (event) {
+            if (success && success != null) {
+                room = success.room;
+                setLiveStream(localStream);
+                for (var i = 0; i < success.streams.length; i++) {
+                    room.subscribe(success.streams[i]);
+                }
 
-                ATList = event.message.activeList;
-                var video_player_len = document.querySelector('#multi_video_container_div').childNodes;
-                if (event.message && event.message !== null && event.message.activeList && event.message.activeList !== null) {
-                    if (ATList.length == video_player_len.length) {
-                        return;
-                    } else {
-                        document.querySelector('#multi_video_container_div').innerHTML = "";
-                        for (stream in room.remoteStreams.getAll()) {
-                            var st = room.remoteStreams.getAll()[stream];
-                            for (j = 0; j < ATList.length; j++) {
-                                if (ATList[j].streamId == st.getID()) {
-                                    setLiveStream(st, ATList[j].name);
+                // Active Talker list is updated
+                room.addEventListener('active-talkers-updated', function (event) {
+
+                    ATUserList = event.message.activeList;
+                    var video_player_len = document.querySelector('#multi_video_container_div').childNodes;
+                    if (event.message && event.message !== null && event.message.activeList && event.message.activeList !== null) {
+                        if (ATUserList.length == video_player_len.length) {
+                            return;
+                        } else {
+                            document.querySelector('#multi_video_container_div').innerHTML = "";
+                            for (stream in room.remoteStreams.getAll()) {
+                                var st = room.remoteStreams.getAll()[stream];
+                                for (j = 0; j < ATUserList.length; j++) {
+                                    if (ATUserList[j].streamId == st.getID()) {
+                                        setLiveStream(st, ATUserList[j].name);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                console.log("Active Talker List :- " + JSON.stringify(event));
-            });
+                    console.log("Active Talker List :- " + JSON.stringify(event));
+                });
 
-            // Stream has been subscribed successfully
-            room.addEventListener('stream-subscribed', function (streamEvent) {
-
-                var stream = (streamEvent.data && streamEvent.data.stream) ? streamEvent.data.stream : streamEvent.stream;
-                for (k = 0; k < ATList.length; k++) {
-                    if (ATList[k].streamId == stream.getID()) {
-                        setLiveStream(stream, ATList[k].name);
+                room.addEventListener("share-started", function (event) {
+                    if (presentationStarted == false && desktop_shared == false) {
+                        if (shareStream == null) {
+                            var st = room.remoteStreams.get(shareScreenStreamId);
+                            if (st.stream !== undefined) {
+                                presentationStarted = true;
+                                shareStart = true;
+                                if (ATUserList.length > 0) {
+                                    addATElement("screen_share_div", st, shareScreenStreamId, "100%", '100%');
+                                } else {
+                                    addATElement("screen_share_div", st, shareScreenStreamId, "100%");
+                                }
+                            }
+                        } else {
+                            presentationStarted = true;
+                            if (ATUserList.length > 0) {
+                                addATElement("screen_share_div", shareStream, shareScreenStreamId, "100%");
+                            } else {
+                                addATElement("screen_share_div", shareStream, shareScreenStreamId, "100%");
+                            }
+                        }
+                        $("#screenShareContainer").show();
+                        $("#videoShareContainer").hide();
                     }
-                }
-            });
+                });
 
-            // Listening to Incoming Data
-            room.addEventListener("active-talker-data-in", function (data) {
+                room.addEventListener("share-stopped", function (event) {
+                    desktop_shared = false;
+                    shareStart = false;
+                    presentationStarted = false;
+                    streamShare = null;
+                    removeElement(shareScreenStreamId);
+                    $("#screenShareContainer").hide();
+                    $("#videoShareContainer").show();
+                    toggleScreenShareIcon('stop');
+                });
 
-                console.log("active-talker-data-in" + data);
-                var obj = {
-                    msg: data.message.message,
-                    timestamp: data.message.timestamp,
-                    username: data.message.from
-                };
-                plotChat(obj);
-            });
+                // Stream has been subscribed successfully
+                room.addEventListener('stream-subscribed', function (streamEvent) {
 
-            // Stream went out of Room
-            room.addEventListener("stream-removed", function (event) {
-                console.log(event);
-            });
-        }
-    });
+                    var stream = (streamEvent.data && streamEvent.data.stream) ? streamEvent.data.stream : streamEvent.stream;
+                    for (k = 0; k < ATUserList.length; k++) {
+                        if (ATUserList[k].streamId == stream.getID()) {
+                            setLiveStream(stream, ATUserList[k].name);
+                        }
+                    }
+                });
+
+                // Stream went out of Room
+                room.addEventListener("stream-removed", function (event) {
+                    console.log(event);
+                });
+            }
+        });
+    // });
 }
 
 $(document).on("click", "div.vcx_bar", function (e) {
@@ -211,41 +246,44 @@ $(document).on("click", "#all_user_radio", function (e) {
 });
 
 function audioMute() {
-    var elem = document.getElementsByClassName("icon-confo-mute")[0];
-    var onImgPath = "img/mike.png", onImgName = "mike.png";
-    var offImgPath = "img/mute-mike.png", offImgName = "mute-mike.png";
-    var currentImgPath = elem.src.split("/")[elem.src.split("/").length - 1];
-    if (currentImgPath === offImgName) {
+    var audioActiveElement = document.getElementsByClassName("fa-microphone")[0];
+    var audioInActiveElement = document.getElementsByClassName("fa-microphone-slash")[0];
+    if (audioInActiveElement) {
         localStream.unmuteAudio(function (arg) {
-            elem.src = onImgPath;
-            elem.title = "mute audio";
+            // unmute audio. Remove slash from the icon and change title 
+            audioInActiveElement.classList.remove("fa-microphone-slash");
+            audioInActiveElement.classList.add("fa-microphone");
+            audioInActiveElement.title = "Mute Audio";
         });
-    } else if (currentImgPath === onImgName) {
+    } else if (audioActiveElement) {
         localStream.muteAudio(function (arg) {
-            elem.src = offImgPath;
-            elem.title = "unmute audio";
+            // mute audio. Add slash in the icon and change title 
+            audioActiveElement.classList.remove("fa-microphone");
+            audioActiveElement.classList.add("fa-microphone-slash");
+            audioActiveElement.title = "Unmute Audio";
         });
     }
 };
 
 function videoMute() {
-    var elem = document.getElementsByClassName("icon-confo-video-mute")[0];
-    var onImgPath = "img/video.png", onImgName = "video.png";
-    var offImgPath = "img/mute-video.png", offImgName = "mute-video.png";
-    var currentImgPath = elem.src.split("/")[elem.src.split("/").length - 1];
-    if (currentImgPath === offImgName) {
-        localStream.unmuteVideo(function (res) {
-            var streamId = localStream.getID();
-            var player = document.getElementById("stream" + streamId);
+    var videoActiveElement = document.getElementsByClassName("fa-video")[0];
+    var videoInActiveElement = document.getElementsByClassName("fa-video-slash")[0];
+    if (videoInActiveElement) {
+        localStream.unmuteVideo((res) => {
+            var player = document.getElementById("stream" + localStream.getID());
             player.srcObject = localStream.stream;
             player.play();
-            elem.src = onImgPath;
-            elem.title = "mute video";
+            // mute audio. Remove slash in the icon and change title 
+            videoInActiveElement.classList.remove("fa-video-slash");
+            videoInActiveElement.classList.add("fa-video");
+            videoInActiveElement.title = "Mute Video";
         });
-    } else if (currentImgPath === onImgName) {
-        localStream.muteVideo(function (res) {
-            elem.src = offImgPath;
-            elem.title = "unmute video";
+    } else if (videoActiveElement) {
+        localStream.muteVideo((res) => {
+            // mute video. Add slash in the icon and change title 
+            videoActiveElement.classList.remove("fa-video");
+            videoActiveElement.classList.add("fa-video-slash");
+            videoActiveElement.title = "Unmute Video";
         });
     }
 };
@@ -254,5 +292,126 @@ function endCall() {
     var r = confirm("You want to quit?");
     if (r == true) {
         window.location.href = "https://developer.enablex.io";
+    }
+}
+
+// toggle screen share icon on action - start / stop
+function toggleScreenShareIcon(action) {
+    var screenShareElement = document.getElementsByClassName("icon-screen-share")[0];
+    var slashElement = document.getElementsByClassName("fa-slash")[0];
+
+    if (action == 'stop') {
+        // stopping screen share. Remove slash from the font icon and change title 
+        if (slashElement) {
+            screenShareElement.classList.remove("fa-slash");
+            screenShareElement.title = "Start Screen Share";
+        }
+    } else {
+        // starting screen share. Add slash in the font icon and change title
+        if (slashElement == undefined) {
+            screenShareElement.classList.add("fa-slash");
+            screenShareElement.title = "Stop Screen Share";
+        }
+    }
+}
+
+
+var streamShare = null;
+var presentationStarted = false;
+var desktop_shared = false;
+var shareStart = false;
+var shareStream = null;
+var shareScreenStreamId = 11;
+
+function screenShare() {
+
+    if (navigator.userAgent.indexOf('QQBrowser') > -1 && room.Connection.getBrowserVersion() < 72) {
+        toastr.error(language.ss_unsupport_qq);
+        return;
+    } else if (navigator.userAgent.indexOf('Chrome') > -1 && room.Connection.getBrowserVersion() < 72) {
+        toastr.error(language.ss_unsupport_chrome_below72);
+        return;
+    }
+
+    if (presentationStarted === false) {
+        desktop_shared = true;
+        streamShare = room.startScreenShare(function (rs) {
+            if (rs.result === 0) {
+                presentationStarted = true;
+                shareStart = true;
+                toggleScreenShareIcon('start');
+                    
+            } else if (rs.result === 1151) {
+                desktop_shared = false;
+                toastr.error(rs.error);
+            } else if (rs.result === 1144) {
+                desktop_shared = false;
+                toastr.error(rs.error);
+            } else if (rs.result === 1150) {
+                desktop_shared = false;
+            } else {
+                desktop_shared = false;
+                toastr.error(language.ss_not_supported);
+            }
+        });
+    } else if (streamShare) {
+        room.stopScreenShare(function (res) {
+            if (res.result == 0) {
+                presentationStarted = false;
+                shareStart = false;
+                $("#screenShareContainer").hide();
+                $("#videoShareContainer").show();
+                streamShare = null;
+                toggleScreenShareIcon('stop');
+            }
+        });
+    } else {
+        desktop_shared = false;
+        toastr.error("Presentation is already running")
+    }
+
+    if (streamShare) {
+        streamShare.addEventListener("stream-ended", function (event) {
+            room.stopScreenShare(function (res) {
+                if (res.result == 0) {
+                    presentationStarted = false;
+                    $("#screenShareContainer").hide();
+                    $("#videoShareContainer").show();
+                    streamShare = null;
+                    toggleScreenShareIcon('stop');
+                }
+            });
+        });
+    }
+}
+
+function addATElement(elem_id, stream, client_id, div_width, div_heigth = "100%") {
+    var el = document.createElement("div");
+    var elem = document.getElementById(elem_id);
+    if (stream) {
+        $("#screenShareContainer").show();
+        $("#videoShareContainer").hide();
+        if (document.getElementById("con_" + client_id) === null) {
+            var streamId = stream.getID();
+            el.setAttribute("id", "con_" + client_id);
+            el.setAttribute("data-stream", streamId);
+            if ((presentationStarted && (desktop_shared == false)) && (streamId === 21 || streamId === 11)) {
+                elem.prepend(el);
+            } else {
+                elem.appendChild(el);
+            }
+            options.player.width = div_width;
+            options.player.height = div_heigth;
+            stream.play("con_" + client_id, options);
+            if (stream.player.stream == undefined) {
+                removeElement(client_id);
+            }
+        }
+    }
+}
+
+function removeElement(clientID) {
+    if (document.querySelector("#con_" + clientID) !== null) {
+        document.querySelector("#con_" + clientID).remove();
     }
 }

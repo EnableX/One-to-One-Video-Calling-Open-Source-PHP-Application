@@ -36,8 +36,15 @@
             </nav>
         </div>
     </header>
-    <div class="container main position-relative">
-        <div class="row">
+    <div class="container">
+        <div class="row" id="screenShareContainer" style="display:none">
+            <div class="col-12">
+                <div class="over-flow-screen">
+                    <div id="screen_share_div" class="cover"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="videoShareContainer">
             <div class="col-12 col-md-12 col-xl-6 col-lg-6">
                 <div class="over-flow">
                     <div id="local_video_div" class="cover"></div>
@@ -50,14 +57,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="controls" id="controls" style="background-color:grey;position: fixed;bottom: 0;width:100%;text-align: center">
-                <span>
-                    <img src="img/mike.png" style="margin-right: 20px;cursor: pointer;"
-                        class="cus_img_icon icon-confo-mute" onclick="audioMute()" title="mute audio" />
-                    <img src="img/video.png" style="margin-right: 20px;cursor: pointer;"
-                        class="cus_img_icon icon-confo-video-mute" title="mute video" onclick="videoMute()" />
-                    <img src="img/end-call.png" style="margin-right: 20px;cursor: pointer;"
-                        class="cus_img_icon end_call" title="End_call" onclick="endCall()" />
+            <div class="controls" id="controls" style="position: fixed;bottom: 0;width:100%;text-align: center">
+                <span class="fa-stack fa-2x" onclick="audioMute()">
+                    <i class="fa fa-circle fa-stack-2x fa-icon-background"></i>
+                    <i class="fa fa-microphone fa-stack-1x" aria-hidden="true" title="Mute Audio"></i>
+                </span>
+                <span class="fa-stack fa-2x" onclick="videoMute()">
+                    <i class="fa fa-circle fa-stack-2x fa-icon-background"></i>
+                    <i class="fa fa-video fa-stack-1x" aria-hidden="true" title="Mute Video"></i>
+                </span>
+                <span class="fa-stack fa-2x" onclick="screenShare()">
+                    <i class="fa fa-circle fa-stack-2x fa-icon-background"></i>
+                    <i class="fa fa-desktop fa-stack-1x"></i>
+                    <i class="fa fa-stack-1x icon-screen-share" aria-hidden="true" title="Start Screen Share"></i>
+                </span>
+                <span class="fa-stack fa-2x" onclick="endCall()">
+                    <i class="fa fa-circle fa-stack-2x fa-phone-icon-background"></i>
+                    <i class="fa fa-phone fa-stack-1x fa-rotate-270" aria-hidden="true" title="End Call"></i>
                 </span>
             </div>
         </div>

@@ -19,6 +19,8 @@ document.getElementById('login_form').addEventListener('submit', event => {
         if (!jQuery.isEmptyObject(data)) {
             var user_ref = document.getElementById('nameText').value;
 
+            // window.location.href = "confo.html?roomId=" + data.room_id + "&usertype=" + document.getElementById('attendeeRole').value + "&user_ref=" + user_ref;
+
             var retData = {
                 name: document.getElementById('nameText').value,
                 role: document.getElementById('attendeeRole').value,
