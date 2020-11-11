@@ -14,23 +14,44 @@ function createRoom()
 
     /* Create Room Meta */
     $room = [
-        'name'		=> 'Sample Room: ' . $randomName,
+        'name'		=> 'room for one to one video meeting: ' . $randomName,
         'owner_ref'	=> $randomName,
         'settings'	=> [
-            'description'	 => '',
+			'scheduled'		 => false,
+			'adhoc'			 => true,
+			'moderators'     => '1',
+			'participants'	 => '1',
+			'duration'		 => '30',
             'quality'		 => 'SD',
-            'mode'			 => 'group',
-            'participants'	 => '1',
-            'duration'		 => '30',
-            'scheduled'		 => false,
             'auto_recording' => false,
-            'active_talker'	 => true,
-            'wait_moderator' => false,
-            'adhoc'			 => true
-        ],
-        'sip' => [
-            'enabled' => false
-        ]
+		],
+    ];
+
+    /* CURL POST Request */
+    return httpPost(API_URL . '/rooms/', json_encode($room));
+}
+
+/*
+* To create a Conference Room in EnableX - using contact room information.
+* @return: result in json format with room-meta of newly created room
+*/
+function createRoomMulti()
+{
+    $randomName = rand(100000, 999999);
+
+    /* Create Room Meta */
+    $room = [
+        'name'		=> 'room for multi party video meeting: ' . $randomName,
+        'owner_ref'	=> $randomName,
+        'settings'	=> [
+			'scheduled'		 => false,
+			'adhoc'			 => true,
+			'moderators'     => '1',
+			'participants'	 => '5',
+			'duration'		 => '30',
+            'quality'		 => 'SD',
+            'auto_recording' => false,
+		],
     ];
 
     /* CURL POST Request */
@@ -60,7 +81,7 @@ function createToken($data)
         'role'	   => $data->role,
         'user_ref' => $data->user_ref
     ];
-     
+
     /* CURL POST Request */
     return httpPost(API_URL . '/rooms/' . $data->roomId . '/tokens', json_encode($token));
 }
@@ -92,7 +113,7 @@ function httpPost($url, $params)
     $response = curl_exec($ch);
 
     curl_close($ch);
-     
+
     return $response;
 }
 
@@ -109,6 +130,6 @@ function httpGet($url)
     $response = curl_exec($ch);
 
     curl_close($ch);
-     
+
     return $response;
 }
