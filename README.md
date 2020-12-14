@@ -29,8 +29,7 @@ Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/ or try o
 * Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/] 
 * Create your Application
 * Get your App ID and App Key
-* Clone this repository `git clone https://github.com/EnableX/One-to-One-Video-Calling-Open-Source-PHP-Application.git --recursive`
-* ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Please note `--recursive` option. Repo should be cloned recursively to download `client` app.
+* Clone this repository `git clone https://github.com/EnableX/One-to-One-Video-Calling-Open-Source-PHP-Application.git --recursive`. ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Please note `--recursive` option. Repo should be cloned recursively to download `client` app.
 * You can copy the app into any sub-directory of hosted website on Apache
 
 #### 3.1.2 SSL Certificates
